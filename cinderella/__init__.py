@@ -81,6 +81,7 @@ if ENV:
     SW_API = os.environ.get('SW_API', None)
     TELETHON_ID = int(os.environ.get("APP_ID", None))
     TELETHON_HASH = os.environ.get("APP_HASH", None)
+    MONGO_DB_URI = os.environ.get("MONGO_DB_URI", None)
     
 else:
     from cinderella.config import Development as Config
@@ -122,6 +123,7 @@ else:
     CERT_PATH = Config.CERT_PATH
 
     DB_URI = Config.SQLALCHEMY_DATABASE_URI
+    MONGO_DB_URI = Config.MONGO_DB_URI
     DONATION_LINK = Config.DONATION_LINK
     LOAD = Config.LOAD
     NO_LOAD = Config.NO_LOAD
