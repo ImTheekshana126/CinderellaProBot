@@ -58,7 +58,6 @@ nudepy
 
 motor
 OpenCC
-Pillow
 ffmpeg-python
 wget
 
