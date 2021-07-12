@@ -79,6 +79,7 @@ def vaccine(bot: Bot, update: Update):
         url_india = 'https://api.covid19india.org/data.json'
         json_url = urlopen(url_india)
         state_dict = json.loads(json_url.read())
+        for sdict in state_dict['statewise']:
             if sdict['state'].lower() == state_input.lower():
                 confirmed = sdict['totaldosesprovidedtostatesuts']
                 deceased = sdict['totalsamplestested']
