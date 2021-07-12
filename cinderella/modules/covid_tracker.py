@@ -68,31 +68,38 @@ def corona(bot: Bot, update: Update):
         reply_text = "The API is currently down."
     message.reply_text(reply_text, parse_mode=ParseMode.MARKDOWN, disable_web_page_preview=True)
 
-@run_async
 def vaccine(bot: Bot, update: Update):
     message = update.effective_message
-    device = message.text[len('/vaccine '):]
-    fetch = get(f'https://api.covid19india.org/data.json')
-
-    if fetch.status_code == 200:
-        usr = fetch.json()
-        data = fetch.text
-        parsed = json.loads(data)
-        total_vaccine_wasted = parsed["totalvaccineconsumptionincludingwastage"]
-        total_dose_pipeline = parsed["totaldosesinpipeline"]
-        total_doses_provided = parsed["totaldosesprovidedtostatesuts"]
-        
-        reply_text = ("*Vaccine Stats🦠:*\n"
-        "Total Vaccine Wasted: `" + str(total_vaccine_wasted) + "`\n"
-        "Total Dose in Pipeline: `" + str(total_dose_pipeline) + "`\n"
-        "Total Doses Provided to States: `" + str(total_doses_provided) +"`")
-        message.reply_text(reply_text, parse_mode=ParseMode.MARKDOWN, disable_web_page_preview=True)
-
-        return
-
-    elif fetch.status_code == 404:
-        reply_text = "The API is currently down."
-    message.reply_text(reply_text, parse_mode=ParseMode.MARKDOWN, disable_web_page_preview=True)
+    state = ''
+    confirmed = 0
+    deceased = 0
+    recovered = 0
+    state_input = ''.join([message.text.split(' ')[i] + ' ' for i in range(1, len(message.text.split(' ')))]).strip()
+    if state_input:
+        url_india = 'https://api.covid19india.org/data.json'
+        json_url = urlopen(url_india)
+        state_dict = json.loads(json_url.read())
+            if sdict['state'].lower() == state_input.lower():
+                confirmed = sdict['totaldosesprovidedtostatesuts']
+                deceased = sdict['totalsamplestested']
+                recovered = sdict['totaldosesinpipeline']
+                state = sdict['state']
+                break
+    
+    if state:
+        bot.send_message(
+            message.chat.id,
+            '`COVID-19 Tracker`\n*Number of vaccine provided to states %s:* %s\n*Total samples tested:* %s\n*Total vaccine in pipeline:* %s\n\n_Source:_ covid19india.org' % (state, confirmed, deceased, recovered),
+            parse_mode = ParseMode.MARKDOWN,
+            disable_web_page_preview = True
+        )
+    else:
+        bot.send_message(
+            message.chat.id,
+            'You need to specify a valid Indian state!',
+            parse_mode = ParseMode.MARKDOWN,
+            disable_web_page_preview = True
+        )
 
 
 __help__ = """
