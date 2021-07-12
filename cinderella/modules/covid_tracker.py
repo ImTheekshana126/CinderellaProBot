@@ -68,6 +68,33 @@ def corona(bot: Bot, update: Update):
         reply_text = "The API is currently down."
     message.reply_text(reply_text, parse_mode=ParseMode.MARKDOWN, disable_web_page_preview=True)
 
+@run_async
+def vaccine(bot: Bot, update: Update):
+    message = update.effective_message
+    device = message.text[len('/vaccine '):]
+    fetch = get(f'https://api.covid19india.org/data.json')
+
+    if fetch.status_code == 200:
+        usr = fetch.json()
+        data = fetch.text
+        parsed = json.loads(data)
+        total_vaccine_wasted = parsed["totalvaccineconsumptionincludingwastage"]
+        total_dose_pipeline = parsed["totaldosesinpipeline"]
+        total_doses_provided = parsed["totaldosesprovidedtostatesuts"]
+        
+        reply_text = ("*Vaccine Stats🦠:*\n"
+        "Total Vaccine Wasted: `" + str(total_vaccine_wasted) + "`\n"
+        "Total Dose in Pipeline: `" + str(total_dose_pipeline) + "`\n"
+        "Total Doses Provided to States: `" + str(total_doses_provided) +"`")
+        message.reply_text(reply_text, parse_mode=ParseMode.MARKDOWN, disable_web_page_preview=True)
+
+        return
+
+    elif fetch.status_code == 404:
+        reply_text = "The API is currently down."
+    message.reply_text(reply_text, parse_mode=ParseMode.MARKDOWN, disable_web_page_preview=True)
+
+
 __help__ = """
  🔱 /covid: get worldwide corona status
  🔱 /covindia <state>: Get real time COVID-19 stats for the input Indian state
@@ -77,5 +104,7 @@ __mod_name__ = '🦠 COVID 19 🦠'
 
 COV_INDIA_HANDLER = CommandHandler('covindia', covindia)
 CORONA_HANDLER = DisableAbleCommandHandler("covid", corona, admin_ok=True)
+VACCINE_HANDLER = CommandHandler('vaccine', covindia)
 dispatcher.add_handler(CORONA_HANDLER)
 dispatcher.add_handler(COV_INDIA_HANDLER)
+dispatcher.add_handler(VACCINE_HANDLER)
