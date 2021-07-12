@@ -70,37 +70,21 @@ def corona(bot: Bot, update: Update):
 
 def vaccine(bot: Bot, update: Update):
     message = update.effective_message
-    state = ''
-    confirmed = 0
-    deceased = 0
-    recovered = 0
     state_input = ''.join([message.text.split(' ')[i] + ' ' for i in range(1, len(message.text.split(' ')))]).strip()
     if state_input:
         url_india = 'https://api.covid19india.org/data.json'
         json_url = urlopen(url_india)
-        state_dict = json.loads(json_url.read())
-        for sdict in state_dict['statewise']:
-            if sdict['state'].lower() == state_input.lower():
-                confirmed = sdict['totaldosesprovidedtostatesuts']
-                deceased = sdict['totalsamplestested']
-                recovered = sdict['totaldosesinpipeline']
-                state = sdict['state']
-                break
-    
-    if state:
-        bot.send_message(
-            message.chat.id,
-            '`COVID-19 Tracker`\n*Number of vaccine provided to states %s:* %s\n*Total samples tested:* %s\n*Total vaccine in pipeline:* %s\n\n_Source:_ covid19india.org' % (state, confirmed, deceased, recovered),
+        usr = fetch.json()
+        data = fetch.text
+        parsed = json.loads(data)
+                confirmed = parsed['totaldosesprovidedtostatesuts']
+                deceased = parsed['totalsamplestested']
+                recovered = parsed['totaldosesinpipeline']
+                reply_text =("
+            '`COVID-19 Tracker`\n*Number of vaccine provided to states %s:* %s\n*Total samples tested:* %s\n*Total vaccine in pipeline:* %s"),
             parse_mode = ParseMode.MARKDOWN,
             disable_web_page_preview = True
-        )
-    else:
-        bot.send_message(
-            message.chat.id,
-            'You need to specify a valid Indian state!',
-            parse_mode = ParseMode.MARKDOWN,
-            disable_web_page_preview = True
-        )
+
 
 
 __help__ = """
