@@ -104,7 +104,7 @@ __mod_name__ = '🦠 COVID 19 🦠'
 
 COV_INDIA_HANDLER = CommandHandler('covindia', covindia)
 CORONA_HANDLER = DisableAbleCommandHandler("covid", corona, admin_ok=True)
-VACCINE_HANDLER = CommandHandler('vaccine', covindia)
+VACCINE_HANDLER = CommandHandler('vaccine', vaccine)
 dispatcher.add_handler(CORONA_HANDLER)
 dispatcher.add_handler(COV_INDIA_HANDLER)
 dispatcher.add_handler(VACCINE_HANDLER)
