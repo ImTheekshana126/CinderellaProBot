@@ -68,24 +68,6 @@ def corona(bot: Bot, update: Update):
         reply_text = "The API is currently down."
     message.reply_text(reply_text, parse_mode=ParseMode.MARKDOWN, disable_web_page_preview=True)
 
-def vaccine(bot: Bot, update: Update):
-    message = update.effective_message
-    state_input = ''.join([message.text.split(' ')[i] + ' ' for i in range(1, len(message.text.split(' ')))]).strip()
-    if state_input:
-        url_india = 'https://api.covid19india.org/data.json'
-        json_url = urlopen(url_india)
-        usr = fetch.json()
-        data = fetch.text
-        parsed = json.loads(data)
-                confirmed = parsed['totaldosesprovidedtostatesuts']
-                deceased = parsed['totalsamplestested']
-                recovered = parsed['totaldosesinpipeline']
-                reply_text =("
-            '`COVID-19 Tracker`\n*Number of vaccine provided to states %s:* %s\n*Total samples tested:* %s\n*Total vaccine in pipeline:* %s"),
-            parse_mode = ParseMode.MARKDOWN,
-            disable_web_page_preview = True
-
-
 
 __help__ = """
  🔱 /covid: get worldwide corona status
