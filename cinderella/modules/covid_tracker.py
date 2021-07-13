@@ -22,7 +22,7 @@ def covindia(bot: Bot, update: Update):
         for sdict in state_dict['statewise']:
             if sdict['state'].lower() == state_input.lower():
                 confirmed = sdict['confirmed']
-                deceased = sdict['deaths']
+                deaths = sdict['deaths']
                 recovered = sdict['recovered']
                 state = sdict['state']
                 break
@@ -30,7 +30,7 @@ def covindia(bot: Bot, update: Update):
     if state:
         bot.send_message(
             message.chat.id,
-            '`COVID-19 Tracker`\n*Number of confirmed cases in %s:* %s\n*Deceased:* %s\n*Recovered:* %s\n\n_Source:_ covid19india.org' % (state, confirmed, deceased, recovered),
+            '🦠 COVID-19 Tracker 🦠\n☑️ *Number of confirmed cases in %s:* %s\n⚰️ *Deaths:* %s\n♻️ *Recovered:* %s\n\n🌐 _Source:_ covid19india.org' % (state, confirmed, deceased, recovered),
             parse_mode = ParseMode.MARKDOWN,
             disable_web_page_preview = True
         )
@@ -56,10 +56,10 @@ def corona(bot: Bot, update: Update):
         total_recovered_global = parsed["latest"]["recovered"]
         active_cases_covid19 = total_confirmed_global - total_deaths_global - total_recovered_global
         reply_text = ("*Corona Stats🦠:*\n"
-        "Total Confirmed: `" + str(total_confirmed_global) + "`\n"
-        "Total Deaths: `" + str(total_deaths_global) + "`\n"
-        "Total Recovered: `" + str(total_recovered_global) +"`\n"
-        "Active Cases: `"+ str(active_cases_covid19) + "`")
+        "☑️ Total Confirmed: `" + str(total_confirmed_global) + "`\n"
+        "⚰️ Total Deaths: `" + str(total_deaths_global) + "`\n"
+        "♻️ Total Recovered: `" + str(total_recovered_global) +"`\n"
+        "☠️ Active Cases: `"+ str(active_cases_covid19) + "`")
         message.reply_text(reply_text, parse_mode=ParseMode.MARKDOWN, disable_web_page_preview=True)
 
         return
